@@ -4,76 +4,120 @@ $(document).ready(function() {
   var secondChoice; //second card clicked - will store the index
   var firstChoiceDiv; //first card clicked - will store the parent div
   var secondChoiceDiv; //second card clicked - will store the parent div
+  var matches = 0; // logs the number of matched cards
+
+  // skills = []
+  // skills[0] = "images/ruby.png"
+  // skills[1] = "images/html.png"
+  // skills[2] = "images/ai.png"
+  // skills[3] = "images/js.png"
+  // skills[4] = "images/git.png"
+  // skills[5] = "images/css.png"
+  // skills[6] = "images/jquery.png"
+  // skills[7] = "images/ps.png"
+  // skills[8] = "images/sql.png"
+  // skills[9] = "images/rails.png"
 
   skills = []
-  skills[0] = "images/ruby.png"
-  skills[1] = "images/html.png"
-  skills[2] = "images/ai.png"
-  skills[3] = "images/js.png"
-  skills[4] = "images/git.png"
-  skills[5] = "images/css.png"
-  skills[6] = "images/jquery.png"
-  skills[7] = "images/ps.png"
-  skills[8] = "images/sql.png"
-  skills[9] = "images/rails.png"
+  skills[0] = {id: 0, photo: "images/ruby.png"}
+  skills[1] = {id: 1, photo: "images/html.png"}
+  skills[2] = {id: 2, photo: "images/ai.png"}
+  skills[3] = {id: 3, photo: "images/js.png"}
+  skills[4] = {id: 4, photo: "images/git.png"}
+  skills[5] = {id: 5, photo: "images/css.png"}
+  skills[6] = {id: 6, photo: "images/jquery.png"}
+  skills[7] = {id: 7, photo: "images/ps.png"}
+  skills[8] = {id: 8, photo: "images/sql.png"}
+  skills[9] = {id: 9, photo: "images/rails.png"}
+  skills[10] = {id: 10, photo: "images/ruby.png"}
+  skills[11] = {id: 11, photo: "images/html.png"}
+  skills[12] = {id: 12, photo: "images/ai.png"}
+  skills[13] = {id: 13, photo: "images/js.png"}
+  skills[14] = {id: 14, photo: "images/git.png"}
+  skills[15] = {id: 15, photo: "images/css.png"}
+  skills[16] = {id: 16, photo: "images/jquery.png"}
+  skills[17] = {id: 17, photo: "images/ps.png"}
+  skills[18] = {id: 18, photo: "images/sql.png"}
+  skills[19] = {id: 19, photo: "images/rails.png"}
+  console.log(skills[0].photo)
+
 
   var front_img = "images/logo.png"
+  shuffleCards(skills)
+  console.log(skills)
 
   for (var i = 0; i < 20; i++) {
-    if (i > 9) { //for the second set of cards
-      var this_div = ".card" + i;
-      var front_card = "<img src='"+ front_img +"' class='face front'></img>";
-      var back_card = "<img src='"+ skills[i - 10] +"' class='face back'></img>";
-      $(front_card).appendTo(this_div);
-      $(back_card).appendTo(this_div);
-    } else { //for the first set of cards
     var this_div = ".card" + i;
     var front_card = "<img src='"+ front_img +"' class='face front'></img>";
-    var back_card = "<img src='"+ skills[i] +"' class='face back'></img>";
+    var back_card = "<img src='"+ skills[i].photo +"' class='face back'></img>";
     $(front_card).appendTo(this_div);
-    $(back_card).appendTo(this_div); }
-     }
+    $(back_card).appendTo(this_div);
+    }
 
   $('img').on('click', function(e) {
-      if (clicks === 2) {
-        flipCards(firstChoiceDiv, secondChoiceDiv);
-        clicks = 0
+      //once matched the card cant be selected again
+      if ($(this).parent().hasClass("stay")) {
         return;
-      } else if (clicks === 0) {
+      }
+
+      //wont register the same card if you click it twice
+      if ($(this).parent().hasClass("flip")) {
+        return;
+      }
+
+      if (clicks === 0) {
           $(this).parent().toggleClass("flip");
           clicks++;
-          firstChoice = findChoiceIndex($(this).parent());
+          firstChoice = findChoiceId($(this).parent());
           // console.log(firstChoice);
           firstChoiceDiv = findDivClass($(this).parent());
           // console.log(firstChoiceDiv);
       } else {
           $(this).parent().toggleClass("flip");
-          secondChoice = skills.indexOf($(this).attr("src"));
+          secondChoice = findChoiceId($(this).parent());
           clicks++;
-          secondChoice = findChoiceIndex($(this).parent());
+          secondChoice = findChoiceId($(this).parent());
           // console.log(secondChoice);
           secondChoiceDiv = findDivClass($(this).parent());
           // console.log(secondChoiceDiv);
+          // if its a match, do nothing
+          ;
+          // if it's not a match, flip back over, after a delay
+          if (!checkMatch(firstChoice, secondChoice, firstChoiceDiv, secondChoiceDiv)) {
+            setTimeout(function() {
+              flipCards(firstChoiceDiv, secondChoiceDiv);
+            }, 1000); }
       }
   })
 
-  function checkMatch(firstChoice, secondChoice) {
+  function checkMatch(firstChoice, secondChoice, firstChoiceDiv, secondChoiceDiv) {
+    clicks = 0;
     if (firstChoice === secondChoice) {
-
+      // console.log("they match");
+      $("." + firstChoiceDiv).toggleClass("stay");
+      $("." + secondChoiceDiv).toggleClass("stay");
+      matches++;
+      if (matches === 10) {
+        console.log("winner winner chicken dinner")
+        $('.modal').fadeIn(2000);
+      }
+      return true;
       //match
     } else {
       //reset
-      clicks = 0;
+      return false;
     }
+
+
   }
 
-  function findChoiceIndex(div) {
+  function findChoiceId(div) {
     var divClass = $(div).attr("class");
     divClass = divClass.split(" ");
     divClass = divClass[0];
     var imageFind = "div." + divClass + " img.back";
     imageFind = $(imageFind).attr("src");
-    var choice = skills.indexOf(imageFind);
+    var choice = findCardId(imageFind);
     return choice;
   }
 
@@ -85,12 +129,29 @@ $(document).ready(function() {
   }
 
   function flipCards(firstChoiceDiv, secondChoiceDiv) {
-    // var divClassFirst = ".card" + firstChoice
-    console.log(firstChoiceDiv)
-    // var divClassSecond = ".card" + secondChoice
-    console.log(secondChoiceDiv)
-    $("." + firstChoiceDiv).toggleClass("flip");
-    $("." + secondChoiceDiv).toggleClass("flip");
+    $('div').not('.stay').removeClass("flip")
+    //  if (!$(this).parent().hasClass("stay")) {}
+    // $("." + firstChoiceDiv).toggleClass("flip");
+    // $("." + secondChoiceDiv).toggleClass("flip");
   }
+
+  function findCardId(image) {
+    //image is the photo link
+    for (var i = 0; i < skills.length; i++) {
+      if (skills[i].photo === image) {
+        return skills[i].id;
+      }
+    }
+  }
+
+  function shuffleCards(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+    return array;
+}
 
 });
