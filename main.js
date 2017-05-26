@@ -15,67 +15,80 @@ $(document).ready(function() {
   skills[8] = "images/sql.png"
   skills[9] = "images/rails.png"
 
-  front_img = "images/logo.png"
+  var front_img = "images/logo.png"
 
   console.log(skills)
 
-  for (var i = 0; i < skills.length; i++) {
-    var this_div = ".card" + i
-    var front_card = "<img src='"+ front_img +"' class='face front'></img>"
-    var back_card = "<img src='"+ skills[i] +"' class='face back'></img>"
-    $(front_card).appendTo(this_div)
-    $(back_card).appendTo(this_div)
+  for (var i = 0; i < 20; i++) {
+    if (i > 9) {
+      var this_div = ".card" + i;
+      var front_card = "<img src='"+ front_img +"' class='face front'></img>";
+      var back_card = "<img src='"+ skills[i - 10] +"' class='face back'></img>";
+      $(front_card).appendTo(this_div);
+      $(back_card).appendTo(this_div);
+    } else {
+    var this_div = ".card" + i;
+    var front_card = "<img src='"+ front_img +"' class='face front'></img>";
+    var back_card = "<img src='"+ skills[i] +"' class='face back'></img>";
+    $(front_card).appendTo(this_div);
+    $(back_card).appendTo(this_div); }
      }
+
+  // for (var i = 10; i < skills.length; i++) {
+  //  var this_div = ".card" + i;
+  //  var front_card = "<img src='"+ front_img +"' class='face front'></img>";
+  //  var back_card = "<img src='"+ skills[i - 10] +"' class='face back'></img>";
+  //  $(front_card).appendTo(this_div);
+  //  $(back_card).appendTo(this_div);
+  //   }
 
   $('img').on('click', function(e) {
       if (clicks === 2) {
+        flipCards(firstChoice, secondChoice);
+        clicks = 0
         return;
       } else if (clicks === 0) {
-        $(this).parent().toggleClass("flip");
-        // firstChoice = skills.indexOf($(this).attr("src"));
-        clicks++;
-        var div = $(this).parent()
-        var divClass = $(div).attr("class")
-        divClass = divClass.split(" ")
-        divClass = divClass[0]
-        var imageFind = "div." + divClass + " img.back"
-        console.log(divClass)
-        console.log(imageFind)
-        imageFind = $(imageFind).attr("src")
-        console.log(imageFind)
-        firstChoice = skills.indexOf(imageFind)
-        console.log(firstChoice)
+          $(this).parent().toggleClass("flip");
+          clicks++;
+          var div = $(this).parent()
+          var divClass = $(div).attr("class")
+          divClass = divClass.split(" ")
+          divClass = divClass[0]
+          var imageFind = "div." + divClass + " img.back"
+          imageFind = $(imageFind).attr("src")
+          firstChoice = skills.indexOf(imageFind)
       } else {
-        $(this).parent().toggleClass("flip");
-        secondChoice = skills.indexOf($(this).attr("src"));
-        clicks++;
-        var div = $(this).parent()
-        var divClass = $(div).attr("class")
-        divClass = divClass.split(" ")
-        divClass = divClass[0]
-        var imageFind = "div." + divClass + " img.back"
-        console.log(divClass)
-        console.log(imageFind)
-        imageFind = $(imageFind).attr("src")
-        console.log(imageFind)
-        secondChoice = skills.indexOf(imageFind)
-        console.log(secondChoice)
-        // setInterval(checkMatch(firstChoice, secondChoice), 1000);
+          $(this).parent().toggleClass("flip");
+          secondChoice = skills.indexOf($(this).attr("src"));
+          clicks++;
+          var div = $(this).parent()
+          var divClass = $(div).attr("class")
+          divClass = divClass.split(" ")
+          divClass = divClass[0]
+          var imageFind = "div." + divClass + " img.back"
+          imageFind = $(imageFind).attr("src")
+          secondChoice = skills.indexOf(imageFind)
+          // setInterval(checkMatch(firstChoice, secondChoice), 1000);
       }
   })
 
   function checkMatch(firstChoice, secondChoice) {
     if (firstChoice === secondChoice) {
+
       //match
     } else {
       //reset
-      var divClassFirst = ".card" + firstChoice
-      console.log(divClassFirst)
-      var divClassSecond = ".card" + secondChoice
-      console.log(divClassSecond)
-      $(divClassFirst).toggleClass("flip");
-      $(divClassSecond).toggleClass("flip");
       clicks = 0;
     }
   }
+
+  function flipCards(firstChoice, secondChoice) {
+    var divClassFirst = ".card" + firstChoice
+    console.log(divClassFirst)
+    var divClassSecond = ".card" + secondChoice
+    console.log(divClassSecond)
+    $(divClassFirst).toggleClass("flip");
+    $(divClassSecond).toggleClass("flip");
+  }
+
 });
