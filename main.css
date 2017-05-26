@@ -1,0 +1,9 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Open Sans', serif;
+}
+
+img {
+  width: 250px;
+  padding: 25px;
+}
