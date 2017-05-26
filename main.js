@@ -17,15 +17,19 @@ $(document).ready(function() {
 
   for (var i = 0; i < skills.length; i++) {
     var this_div = ".card" + i
-    var front_card = "<img src='"+ front_img +"' class='back'></img>"
-    var back_card = "<img src='"+ skills[i] +"' class='back'></img>"
+    var front_card = "<img src='"+ front_img +"' class='face front'></img>"
+    var back_card = "<img src='"+ skills[i] +"' class='face back'></img>"
     $(front_card).appendTo(this_div)
     $(back_card).appendTo(this_div)
       // $('<img>').attr("src", front_img).appendTo(this_div);
       // $('<img>').attr("src", skills[i]).appendTo(this_div);
      }
 
-  // $('img').on('click', function(e) {
-  //   $(this).css("transform", "rotateY(180deg)").css("transform-style", "preserve-3d")
+  $('img').on('click', function(e) {
+      $(this).parent().toggleClass("flip");
+  })
+
+  // $('img.back').on('click', function(e) {
+  //     $(this).toggleClass("return");
   // })
 });

@@ -3,7 +3,41 @@
   font-family: 'Open Sans', serif;
 }
 
+div {
+  display: inline-block;
+}
+
 img {
   width: 250px;
   padding: 25px;
+}
+
+.face {
+  /*z-index: 2;*/
+  /*position: absolute;*/
+
+}
+
+.front {
+  position: absolute;
+  z-index: 1;
+  backface-visibility: hidden;
+}
+
+.back {
+  transform: rotateY(-180deg);
+  transform-style: preserve-3d;
+  transition: 0.5s;
+}
+
+.flip {
+  transform: rotateY(180deg);
+  transform-style: preserve-3d;
+  transition: 0.5s;
+}
+
+.return {
+  transform: rotateY(-180deg);
+  transform-style: preserve-3d;
+  transition: 0.5s;
 }
