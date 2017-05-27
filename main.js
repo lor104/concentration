@@ -6,18 +6,6 @@ $(document).ready(function() {
   var secondChoiceDiv; //second card clicked - will store the parent div
   var matches = 0; // logs the number of matched cards
 
-  // skills = []
-  // skills[0] = "images/ruby.png"
-  // skills[1] = "images/html.png"
-  // skills[2] = "images/ai.png"
-  // skills[3] = "images/js.png"
-  // skills[4] = "images/git.png"
-  // skills[5] = "images/css.png"
-  // skills[6] = "images/jquery.png"
-  // skills[7] = "images/ps.png"
-  // skills[8] = "images/sql.png"
-  // skills[9] = "images/rails.png"
-
   skills = []
   skills[0] = {id: 0, photo: "images/ruby.png"}
   skills[1] = {id: 1, photo: "images/html.png"}
@@ -39,12 +27,9 @@ $(document).ready(function() {
   skills[17] = {id: 17, photo: "images/ps.png"}
   skills[18] = {id: 18, photo: "images/sql.png"}
   skills[19] = {id: 19, photo: "images/rails.png"}
-  console.log(skills[0].photo)
 
-
-  var front_img = "images/logo.png"
+  var front_img = "images/logo-2.png"
   shuffleCards(skills)
-  console.log(skills)
 
   for (var i = 0; i < 20; i++) {
     var this_div = ".card" + i;
@@ -69,31 +54,24 @@ $(document).ready(function() {
           $(this).parent().toggleClass("flip");
           clicks++;
           firstChoice = findChoiceId($(this).parent());
-          // console.log(firstChoice);
           firstChoiceDiv = findDivClass($(this).parent());
-          // console.log(firstChoiceDiv);
       } else {
           $(this).parent().toggleClass("flip");
           secondChoice = findChoiceId($(this).parent());
           clicks++;
           secondChoice = findChoiceId($(this).parent());
-          // console.log(secondChoice);
           secondChoiceDiv = findDivClass($(this).parent());
-          // console.log(secondChoiceDiv);
-          // if its a match, do nothing
-          ;
-          // if it's not a match, flip back over, after a delay
+
           if (!checkMatch(firstChoice, secondChoice, firstChoiceDiv, secondChoiceDiv)) {
             setTimeout(function() {
               flipCards(firstChoiceDiv, secondChoiceDiv);
-            }, 1000); }
+            }, 1300); }
       }
   })
 
   function checkMatch(firstChoice, secondChoice, firstChoiceDiv, secondChoiceDiv) {
     clicks = 0;
     if (firstChoice === secondChoice) {
-      // console.log("they match");
       $("." + firstChoiceDiv).toggleClass("stay");
       $("." + secondChoiceDiv).toggleClass("stay");
       matches++;
@@ -107,8 +85,6 @@ $(document).ready(function() {
       //reset
       return false;
     }
-
-
   }
 
   function findChoiceId(div) {
@@ -130,9 +106,6 @@ $(document).ready(function() {
 
   function flipCards(firstChoiceDiv, secondChoiceDiv) {
     $('div').not('.stay').removeClass("flip")
-    //  if (!$(this).parent().hasClass("stay")) {}
-    // $("." + firstChoiceDiv).toggleClass("flip");
-    // $("." + secondChoiceDiv).toggleClass("flip");
   }
 
   function findCardId(image) {
