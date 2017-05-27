@@ -3,18 +3,31 @@
   font-family: 'Open Sans', serif;
 }
 
-div {
+#skills-game {
+  text-align: center;
+  position: relative;
+}
+
+#reset-all-skills {
+  clear: both;
+}
+
+#number-of-matches {
+  clear:both;
+}
+
+div.skill {
   display: inline-block;
   float: left;
 }
 
-div.skill:nth-child(5n + 2) {
+.card5, .card10, .card15 {
   clear: left;
 }
 
-img {
+div.skill img {
   width: 200px;
-  padding: 15px;
+  padding: 5px;
 }
 
 .face {
@@ -58,7 +71,7 @@ img {
 }
 
 .modal {
-  position: fixed;
+  position: absolute;
   width: 100%;
   height: 100%;
   background-color: rgba(116, 116, 116, 0.84);
